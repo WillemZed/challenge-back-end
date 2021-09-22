@@ -1,4 +1,5 @@
 <?php
+
     include("dataplayer.php");
     createDatabase();
     $id = $_GET["id"];
@@ -15,10 +16,12 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="index.php">Home</a>
     <?php
         echo $list['name'];
     ?>
+    <a href="createTask.php?id=<? echo $id ?>">Add a task</a>
     <a href="editList.php?id=<?echo $id?>">edit name</a>
-    <a href="deleteList.php?delete=<? echo$list["id"] ?>">delete list</a>
+    <a href="deleteList.php?delete=<? echo$list["id"] ?>" onclick="return confirm('Weet je zeker dat je het wilt verwijderen?')">delete list</a>
 </body>
 </html>

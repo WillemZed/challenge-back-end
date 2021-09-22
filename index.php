@@ -2,7 +2,8 @@
     include("dataplayer.php");
     createDatabase();
 
-    $getLists = readLists();
+    $listTasks = innerJoinTables();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +18,7 @@
 <body>
     <a href="createList.php">Create new list</a>
     <?php
-    foreach($getLists as $getLists) {
+    foreach($listTasks as $list) {
         include("listList.php");
     }
     ?>
