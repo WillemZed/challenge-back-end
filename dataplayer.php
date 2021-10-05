@@ -17,6 +17,38 @@ try {
     }
 }
 
+function taskFromIdList($id) {
+    $dbConn = createDatabase();
+    $stmt = $dbConn->prepare("SELECT * FROM `tasks` WHERE Tasks.list_id = :id");
+    $stmt->bindParam(":id", $id);
+    $stmt->execute();
+    $result=$stmt->fetchAll();
+    $dbConn=null;
+    return $result;
+} 
+function sortedTask($id, $sortCol, $sortOrder) {
+    $dbConn = createDatabase();
+
+    if($sortOrder == 'descending') {
+        $sortOrder = 'desc';
+    } else {
+        $sortOrder = 'asc';
+    }
+
+    if($sortCol == 'status') {
+        $sortCol = 'status';
+    } else {
+        $sortCol = 'time';
+    }
+
+    $dbConn = createDatabase();
+    $stmt = $dbConn->prepare("SELECT * FROM `tasks` WHERE Tasks.list_id = $id ORDER BY $sortCol $sortOrder");
+    $stmt->execute();
+    $result=$stmt->fetchAll();
+    $dbConn=null;
+    return $result;
+}
+
 function innerJoinTables() {
     $dbConn = createDatabase();
     $stmt = $dbConn->prepare("SELECT Tasks.* , Lists.name AS listName, Lists.id AS listId FROM Tasks INNER JOIN Lists ON Tasks.list_id = lists.id");
@@ -44,14 +76,16 @@ function addList() {
 
 function updateList($id) {
     $dbConn = createDatabase();
-    $stmt = $dbConn->prepare("UPDATE Lists SET `name`= '$_POST[listName]' WHERE id=$id");
+    $stmt = $dbConn->prepare("UPDATE Lists SET `name`= '$_POST[listName]' WHERE id=:id");
+    $stmt->bindParam(":id", $id);
     $stmt->execute();
     $dbConn=null;
 }
 
 function readList($id) {
     $dbConn = createDatabase();
-	$stmt = $dbConn->prepare("SELECT * FROM Lists WHERE id=$id");
+	$stmt = $dbConn->prepare("SELECT * FROM Lists WHERE id=:id");
+    $stmt->bindParam(":id", $id);
 	$stmt->execute();
 	$result=$stmt->fetch();
 	$dbConn=null;
@@ -60,7 +94,8 @@ function readList($id) {
 
 function deleteList($id){
 	$dbConn = createDatabase();
-	$stmt = $dbConn->prepare("DELETE FROM Lists WHERE id=$id");
+	$stmt = $dbConn->prepare("DELETE FROM Lists WHERE id=:id");
+    $stmt->bindParam(":id", $id);
 	$stmt->execute();
 	$dbConn=null;
 	return $result;
@@ -68,7 +103,8 @@ function deleteList($id){
 
 function addTask($id) {
     $dbConn = createDatabase();
-    $stmt = $dbConn->prepare("INSERT INTO Tasks (name, list_id, time, status) VALUES ('$_POST[taskName]', $id, '$_POST[taskTime]', 'Ongoing')");
+    $stmt = $dbConn->prepare("INSERT INTO Tasks (name, list_id, time, status) VALUES ('$_POST[taskName]', :id, '$_POST[taskTime]', 'Ongoing')");
+    $stmt->bindParam(":id", $id);
     $stmt->execute();
     $dbConn=null;
 }
@@ -82,12 +118,50 @@ function readTasks() {
     return $result;
 }
 
-function fetch() {
-
-    while ($row = mysql_fetch_object($result)) {
-        echo $row->user_id;
-        echo $row->fullname;
-    }
+function readTask($id) {
+    $dbConn = createDatabase();
+	$stmt = $dbConn->prepare("SELECT * FROM Tasks WHERE id=:id");
+    $stmt->bindParam(":id", $id);
+	$stmt->execute();
+	$result=$stmt->fetch();
+	$dbConn=null;
+	return $result;
 }
+
+function updateTask($id) {
+    $dbConn = createDatabase();
+    $stmt = $dbConn->prepare("UPDATE Tasks SET `name`= '$_POST[taskName]' WHERE id=:id");
+    $stmt->bindParam(":id", $id);
+    $stmt->execute();
+    $dbConn=null;
+}
+
+function deleteTask($id){
+	$dbConn = createDatabase();
+	$stmt = $dbConn->prepare("DELETE FROM Tasks WHERE id=:id");
+    $stmt->bindParam(":id", $id);
+	$stmt->execute();
+	$dbConn=null;
+	return $result;
+}
+
+function sortTimeDesc() {
+    $dbConn = createDatabase();
+	$stmt = $dbConn->prepare("SELECT * FROM `Tasks` ORDER BY time DESC");
+	$stmt->execute();
+    $result=$stmt->fetchAll();
+	$dbConn=null;
+	return $result;
+}
+
+function sortTimeAsc() {
+    $dbConn = createDatabase();
+	$stmt = $dbConn->prepare("SELECT * FROM `Tasks` ORDER BY time ASC");
+	$stmt->execute();
+    $result=$stmt->fetchAll();
+	$dbConn=null;
+	return $result;
+}
+
 
 ?>

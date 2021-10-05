@@ -2,8 +2,11 @@
     include("dataplayer.php");
     createDatabase();
 
-    $listTasks = innerJoinTables();
+    $lists = readLists();
+    $sortLists = $_GET["sort"];
 
+    $sortCol = $_GET["sortColumn"];
+    $sortOrder = $_GET["sortOrder"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,10 +20,29 @@
 </head>
 <body>
     <a href="createList.php">Create new list</a>
+
+    <br>
+
+    <p>sort</p>
+    <form action="index.php?sortCol=<? echo $_GET["time"];?>sortOrder="<? $_GET["order"] ?> method="get">
+        <select name="sortColumn" id="">
+            <option value="time" <? if(!isset($sortCol)) {echo "selected";};?> >Time</option>
+            <option value="status" <? if(!isset($sortCol)) {echo "selected";};?> >Status</option>
+        </select>
+    
+        <select name="sortOrder" id="">
+            <option value="ascending" <? if(!isset($sortOrder)) {echo "selected";};?>>Ascending</option>
+            <option value="descending" <? if(!isset($sortOrder)) {echo "selected";};?>>Descending</option>
+        </select>
+        <input type="submit" value="Sort">
+    </form>
+
     <?php
-    foreach($listTasks as $list) {
+    foreach($lists as $list) {
         include("listList.php");
     }
     ?>
+
+
 </body>
 </html>
