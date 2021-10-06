@@ -2,11 +2,13 @@
     include("dataplayer.php");
     createDatabase();
 
-    $lists = readLists();
-    $sortLists = $_GET["sort"];
+    $lists = readLists();//gets everything from table 'lists' and puts it in the variable
 
+
+    //takes values in the url and puts them in a variable which makes sure the browser knows which option is selected
     $sortCol = $_GET["sortColumn"];
     $sortOrder = $_GET["sortOrder"];
+    $status = $_GET["status"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,21 +25,32 @@
 
     <br>
 
-    <p>sort</p>
     <form action="index.php?sortCol=<? echo $_GET["time"];?>sortOrder="<? $_GET["order"] ?> method="get">
+
         <select name="sortColumn" id="">
-            <option value="time" <? if(!isset($sortCol)) {echo "selected";};?> >Time</option>
-            <option value="status" <? if(!isset($sortCol)) {echo "selected";};?> >Status</option>
+            <option value="time" <? if(isset($sortCol) && $sortColumn == "time") {echo "selected";};?> >Time</option>
         </select>
     
         <select name="sortOrder" id="">
-            <option value="ascending" <? if(!isset($sortOrder)) {echo "selected";};?>>Ascending</option>
-            <option value="descending" <? if(!isset($sortOrder)) {echo "selected";};?>>Descending</option>
+            <option value="ascending" <? if(isset($sortOrder) && $sortOrder == "ascending") {echo "selected";};?>>Ascending</option>
+            <option value="descending" <? if(isset($sortOrder) && $sortOrder == "descending") {echo "selected";};?>>Descending</option>
         </select>
+
         <input type="submit" value="Sort">
     </form>
 
+    <form action="" method="get">
+        <select name="status" id="">
+            <option value="Inactive" <? if(isset($status) && $status == "Inactive") {echo "selected";};?>>Inactive</option>
+            <option value="Ongoing" <? if(isset($status) && $status == "Ongoing") {echo "selected";};?>>Ongoing</option>
+            <option value="Completed" <? if(isset($status) && $status == "Completed") {echo "selected";};?>>Completed</option>
+        </select>
+        <input type="submit" value="filter">
+    </form>
+    <a href="index.php">Reset</a>
+
     <?php
+    //loops an include function with all the data that $lists has
     foreach($lists as $list) {
         include("listList.php");
     }

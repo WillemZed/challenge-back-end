@@ -1,23 +1,27 @@
 <?php
     include("dataplayer.php");
     createDatabase();
+    //gets id from the url and puts it in a variable
     $id = $_GET["id"];
+    //gets the task from the database with the same id as the one in $id and puts it in a variable
     $task = readTask($id);
+    //gets the name from $tasks and puts it in a variable
     $taskName = $task["name"];
 
+    //checks if there has been a POST request
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $nameErr = "";
         $name = "";
+
+        /*checks if $_POST["taskName] is empty(no value) and inserts an error message in $nameErr if it is
+        otherwise inserts that value $name and does a validation check */
         if(empty($_POST["taskName"])) {
             $nameErr = "Vul alstublieft de naam in.";
         } else {
             $name = $_POST["taskName"];
-
-            if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
-            $nameErr = "U kunt alleen letters en spaties invullen";
-            } 
         }
 
+        //checks if $name is not empty and updates the name of the task and redirects the user back to the index
         if(!empty($name)) {
             updateTask($id);
             header("Location: index.php");

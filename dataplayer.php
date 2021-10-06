@@ -42,16 +42,8 @@ function sortedTask($id, $sortCol, $sortOrder) {
     }
 
     $dbConn = createDatabase();
-    $stmt = $dbConn->prepare("SELECT * FROM `tasks` WHERE Tasks.list_id = $id ORDER BY $sortCol $sortOrder");
-    $stmt->execute();
-    $result=$stmt->fetchAll();
-    $dbConn=null;
-    return $result;
-}
-
-function innerJoinTables() {
-    $dbConn = createDatabase();
-    $stmt = $dbConn->prepare("SELECT Tasks.* , Lists.name AS listName, Lists.id AS listId FROM Tasks INNER JOIN Lists ON Tasks.list_id = lists.id");
+    $stmt = $dbConn->prepare("SELECT * FROM `tasks` WHERE Tasks.list_id = :id ORDER BY $sortCol $sortOrder");
+    $stmt->bindParam(":id", $id);
     $stmt->execute();
     $result=$stmt->fetchAll();
     $dbConn=null;
@@ -163,5 +155,23 @@ function sortTimeAsc() {
 	return $result;
 }
 
+function updateStatus($id, $status) {
+    $dbConn = createDatabase();
+	$stmt = $dbConn->prepare("UPDATE Tasks SET status = '$status' WHERE id = :id");
+    $stmt->bindParam(":id", $id);
+	$stmt->execute();
+	$dbConn=null;
+}
+
+function filterStatus($id, $status) {
+    $dbConn = createDatabase();
+	$stmt = $dbConn->prepare("SELECT * FROM `tasks` WHERE Tasks.list_id = :id AND status = :statuss ORDER BY time ASC");
+    $stmt->bindParam(":id", $id);
+    $stmt->bindParam(":statuss", $status);
+	$stmt->execute();
+	$result=$stmt->fetchAll();
+	$dbConn=null;
+	return $result;
+}
 
 ?>

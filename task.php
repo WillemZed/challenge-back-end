@@ -2,7 +2,10 @@
 
     include("dataplayer.php");
     createDatabase();
+    
+    //takes the id from the url and puts it in the variable
     $id = $_GET["id"];
+    //gets the task from the database with the same id as the one in $id and puts it in a variable
     $task = readTask($id);
 
 ?>
@@ -22,5 +25,6 @@
     ?>
     <a href="editTask.php?id=<?echo $id?>">edit name</a>
     <a href="deleteTask.php?delete=<? echo$task["id"] ?>" onclick="return confirm('Weet je zeker dat je het wilt verwijderen?')">delete task</a>
+    <a href="editStatus.php?id=<? echo $id ?>">edit status</a>
 </body>
 </html>
