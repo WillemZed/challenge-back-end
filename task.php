@@ -17,14 +17,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body>
-    <a href="index.php">Home</a>
-    <?php
-        echo $task['name'];
-    ?>
-    <a href="editTask.php?id=<?echo $id?>">edit name</a>
-    <a href="deleteTask.php?delete=<? echo$task["id"] ?>" onclick="return confirm('Weet je zeker dat je het wilt verwijderen?')">delete task</a>
-    <a href="editStatus.php?id=<? echo $id ?>">edit status</a>
+<body class="text-center">
+    <h1><? echo $task["name"]; ?></h1>
+    <a class="btn btn-dark border" href="index.php">Home</a>
+    <br>
+    <a class="btn btn-dark border" href="editTask.php?id=<?echo $id?>">edit name</a>
+    <br>
+    <a class="btn btn-dark border" href="deleteTask.php?delete=<? echo$task["id"] ?>" onclick="return confirm('Weet je zeker dat je het wilt verwijderen?')">delete task</a>
+    <br>
+    <a class="btn btn-dark border" href="editStatus.php?id=<? echo $id ?>">edit status</a>
 </body>
 </html>

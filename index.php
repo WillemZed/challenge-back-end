@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="style.css">
     <title>Back end</title>
 </head>
-<body>
+<body class="text-center">
     <a href="createList.php">Create new list</a>
 
     <br>

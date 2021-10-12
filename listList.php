@@ -28,17 +28,18 @@
 
 
 
-<div class="border" class="container p-3 my-3 bg-primary" class="listContainer" >
-    <p> <? echo $list["name"]; ?> </p>
+<div class="border border-dark rounded text-center container p-3 my-3 bg-primary">
+    <p class="listName"> <? echo $list["name"]; ?> </p>
     <div>
         <? 
         //checks if $tasksLists has values and creates a loop if there is a value
         if (isset($tasksLists)) {
-            foreach ($tasksLists as $task) {
+            foreach ($tasksLists as $tasks) {
                 include "taskTask.php";
             }
         }
         ?>
+        <a class="text-white"href="createTask.php?id=<? echo $id ?>">Add a task</a>
     </div>
     <a class="linkColor" href="list.php?id=<?echo $list['id']?>">view list</a>
 </div>

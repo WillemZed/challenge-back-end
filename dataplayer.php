@@ -95,7 +95,7 @@ function deleteList($id){
 
 function addTask($id) {
     $dbConn = createDatabase();
-    $stmt = $dbConn->prepare("INSERT INTO Tasks (name, list_id, time, status) VALUES ('$_POST[taskName]', :id, '$_POST[taskTime]', 'Ongoing')");
+    $stmt = $dbConn->prepare("INSERT INTO Tasks (name, list_id, time, status) VALUES ('$_POST[taskName]', :id, '$_POST[taskTime]', '$_POST[status]')");
     $stmt->bindParam(":id", $id);
     $stmt->execute();
     $dbConn=null;
@@ -130,7 +130,8 @@ function updateTask($id) {
 
 function deleteTask($id){
 	$dbConn = createDatabase();
-	$stmt = $dbConn->prepare("DELETE FROM Tasks WHERE id=:id");
+	$stmt = $dbConn->prepare("DELETE FROM Tasks WHERE id=$id");
+    echo "DELETE FROM Tasks WHERE id=$id";
     $stmt->bindParam(":id", $id);
 	$stmt->execute();
 	$dbConn=null;
